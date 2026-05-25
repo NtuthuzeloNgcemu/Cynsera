@@ -40,18 +40,6 @@ cynsera/
 
 ---
 
-## Supabase Setup
-
-1. Create a project at https://supabase.com
-2. Open **SQL Editor** and run `data/schema.sql` – this creates all tables,
-   indexes, RLS policies, and seeds the three demo accounts.
-3. Copy your project **URL** and **anon key** into `js/supabase.js`:
-   ```js
-   const SUPABASE_URL  = 'https://YOUR_PROJECT.supabase.co';
-   const SUPABASE_ANON = 'YOUR_ANON_KEY';
-   ```
-4. The app will automatically prefer Supabase for all reads and writes,
-   falling back to localStorage when offline.
 
 ### Tables
 
@@ -62,20 +50,6 @@ cynsera/
 | `email_verifications`  | OTP records for signup and password reset          |
 
 ---
-
-## Running Locally
-
-Open `index.html` directly in a browser (no build step required).
-
-For full Supabase integration use a local server to avoid CORS issues:
-```bash
-# Node (http-server)
-npx http-server . -p 3000
-
-# Python
-python3 -m http.server 3000
-```
-Then visit http://localhost:3000
 
 ### Demo Accounts
 
