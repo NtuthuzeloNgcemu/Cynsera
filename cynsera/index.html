@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYNSERA - Youth Empowerment Platform</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="h-full cynsera-editorial font-body">
+<div id="toast-container"></div>
+
+<div id="page-landing" class="w-full">
+  <div class="top-strip">
+    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <div class="flex items-center gap-5">
+        <span><i data-lucide="mail"></i> support@cynsera.co.za</span>
+        <span class="hidden sm:inline"><i data-lucide="phone"></i> +27 11 000 2026</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <button onclick="window.location.href='auth.html?tab=login'">Login</button>
+        <button onclick="window.location.href='auth.html?tab=signup'" class="support-btn">Join Cynsera</button>
+      </div>
+    </div>
+  </div>
+
+  <nav id="main-nav" class="site-nav">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="brand-lockup" onclick="scrollToSection('hero')">
+        <img class="brand-logo" src="assets/cynsera-logo-cropped.png" alt="Cynsera logo">
+        <div>
+          <span class="brand-name">Cynsera</span>
+          <span class="brand-subtitle">Youth Career Navigation</span>
+        </div>
+      </div>
+      <div class="hidden md:flex items-center gap-8 nav-links">
+        <a onclick="scrollToSection('features')">Features</a>
+        <a onclick="scrollToSection('pathways')">Pathways</a>
+        <a onclick="scrollToSection('how-it-works')">How It Works</a>
+        <a onclick="scrollToSection('trust')">Trust</a>
+        <button onclick="window.location.href='auth.html?tab=login'" class="nav-login">Log In</button>
+        <button onclick="window.location.href='auth.html?tab=signup'" class="nav-primary">Sign Up Free</button>
+      </div>
+      <button onclick="toggleMobileMenu()" class="md:hidden p-2 nav-menu-btn">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+    <div id="mobile-nav" class="hidden md:hidden px-6 pb-4 mobile-nav">
+      <a onclick="scrollToSection('features');toggleMobileMenu()">Features</a>
+      <a onclick="scrollToSection('pathways');toggleMobileMenu()">Pathways</a>
+      <a onclick="scrollToSection('how-it-works');toggleMobileMenu()">How It Works</a>
+      <button onclick="window.location.href='auth.html?tab=signup'">Sign Up Free</button>
+    </div>
+  </nav>
+
+  <main>
+    <section id="hero" class="editorial-hero">
+      <div class="hero-photo" role="img" aria-label="Young person studying and preparing for work"></div>
+      <div class="hero-overlay"></div>
+      <div class="max-w-7xl mx-auto px-6 hero-content">
+        <p class="hero-kicker">Connecting Skills - Creating Opportunities - Building Futures</p>
+        <h1>The New Era of Career Navigation</h1>
+        <p class="hero-copy">Cynsera connects South African youth with low-skill gigs, entry-level jobs, learnerships, and trusted career-building support.</p>
+        <div class="hero-actions">
+          <button onclick="window.location.href='auth.html?tab=signup&type=youth'">I'm a Youth - Find Gigs</button>
+          <button onclick="window.location.href='auth.html?tab=signup&type=client'">I Need Help - Post a Job</button>
+          <button onclick="window.location.href='auth.html?tab=signup&type=company'">Company - Create Opportunities</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature-strip max-w-6xl mx-auto">
+      <div><i data-lucide="briefcase"></i><strong>Instant Gigs</strong><span>Start earning through simple local work.</span></div>
+      <div><i data-lucide="building-2"></i><strong>Entry-Level Jobs</strong><span>Find beginner-friendly roles from companies.</span></div>
+      <div><i data-lucide="graduation-cap"></i><strong>Free Training</strong><span>Discover workshops and learnerships.</span></div>
+      <div><i data-lucide="shield-check"></i><strong>Verified Trust</strong><span>Profiles, ratings, uploads, and reviews.</span></div>
+    </section>
+
+    <section id="features" class="split-feature max-w-6xl mx-auto px-6">
+      <div class="split-image"></div>
+      <div class="split-panel">
+        <p class="section-kicker">About Cynsera</p>
+        <h2>A practical bridge from matric to work</h2>
+        <p>Many young people are ready to work but do not know where to begin. Cynsera gives them a simple starting point: small gigs for immediate income, entry-level jobs for the next step, and training pathways for long-term growth.</p>
+        <button onclick="window.location.href='auth.html?tab=signup'">Apply Now</button>
+      </div>
+    </section>
+
+    <section id="pathways" class="navy-band">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="band-intro">
+          <p class="section-kicker">Opportunity Pathways</p>
+          <h2>One platform, three ways forward</h2>
+          <p>Whether someone needs income today or a stronger career path tomorrow, Cynsera keeps the journey connected.</p>
+        </div>
+        <div class="pathway-grid">
+          <article>
+            <i data-lucide="sparkles"></i>
+            <h3>Low-Skill Gigs</h3>
+            <p>Car washing, house cleaning, gardening, delivery errands, babysitting, event help, typing, and other local work.</p>
+          </article>
+          <article>
+            <i data-lucide="badge-check"></i>
+            <h3>Beginner Jobs</h3>
+            <p>Entry-level opportunities for recent matriculants and youth with little or no formal work experience.</p>
+          </article>
+          <article>
+            <i data-lucide="book-open-check"></i>
+            <h3>Skills Growth</h3>
+            <p>Learnerships, workshops, announcements, and guidance from Cynsera Buddy for new users.</p>
+          </article>
+          <article>
+            <i data-lucide="star"></i>
+            <h3>Reputation</h3>
+            <p>Ratings, reviews, verification uploads, and completion proof help users build trust over time.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="how-section max-w-6xl mx-auto px-6">
+      <div class="section-heading">
+        <p class="section-kicker">How It Works</p>
+        <h2>From looking for work to building a profile</h2>
+      </div>
+      <div class="steps-grid">
+        <div><span>01</span><h3>Create and verify your profile</h3><p>Register, confirm your details, upload the right documents, and complete the guided profile setup.</p></div>
+        <div><span>02</span><h3>Find or post a gig</h3><p>Youth browse opportunities while clients post local tasks with clear budgets and requirements.</p></div>
+        <div><span>03</span><h3>Complete work and build trust</h3><p>Applications include identity confirmation, supporting uploads, ratings, reviews, and proof of completion.</p></div>
+      </div>
+    </section>
+
+    <section id="trust" class="trust-band">
+      <div class="max-w-6xl mx-auto px-6 trust-layout">
+        <div>
+          <p class="section-kicker">Trust & Safety</p>
+          <h2>Built for real people and real opportunities</h2>
+          <p>Cynsera uses phone, email, identity, document, and POPIA consent checks to make the platform feel safer for youth, clients, and companies.</p>
+        </div>
+        <div class="quick-links">
+          <a>POPIA-aligned consent</a>
+          <a>Document validation</a>
+          <a>Selfie and video checks</a>
+          <a>Ratings and reviews</a>
+          <a>Cynsera Buddy support</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="cynsera-buddy" class="buddy-widget">
+    <div id="buddy-message" class="buddy-panel">
+      <div class="buddy-head">
+        <strong>Cynsera Buddy</strong>
+        <button onclick="toggleBuddy()" aria-label="Close Cynsera Buddy"><i data-lucide="x"></i></button>
+      </div>
+      <div id="buddy-chat-log" class="buddy-chat-log"></div>
+      <div class="buddy-quick-actions">
+        <button onclick="buddyAsk('How do I find gigs?')">Find gigs</button>
+        <button onclick="buddyAsk('How do clients post work?')">Client help</button>
+        <button onclick="buddyAsk('What languages do you know?')">Languages</button>
+      </div>
+      <form class="buddy-input-row" onsubmit="sendBuddyMessage(event)">
+        <input id="buddy-input" type="text" placeholder="Ask about gigs, clients, documents, POPIA, or languages">
+        <button type="submit"><i data-lucide="send"></i></button>
+      </form>
+    </div>
+    <button onclick="toggleBuddy()"><i data-lucide="bot"></i></button>
+  </div>
+
+  <footer class="site-footer">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <span>Cynsera</span>
+      <p>(c) 2026 Cynsera by EquiTech. South Africa's Career Navigation Platform.</p>
+      <div><a>Privacy</a><a>Terms</a><a>Contact</a></div>
+    </div>
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/buddy.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

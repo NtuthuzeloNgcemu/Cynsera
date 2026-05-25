@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYNSERA - Dashboard</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="h-full font-body dashboard-body">
+<div id="toast-container"></div>
+
+<div id="page-dashboard" class="dashboard-shell">
+  <nav class="dash-nav">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="dash-brand">
+        <img src="assets/cynsera-logo-cropped.png" alt="Cynsera logo">
+        <div>
+          <span>Cynsera</span>
+          <small id="dash-role-subtitle">Opportunity Dashboard</small>
+        </div>
+      </div>
+      <div class="dash-user">
+        <span id="dash-username">User</span>
+        <button onclick="handleLogout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="dash-layout max-w-7xl mx-auto px-6">
+    <aside class="dash-sidebar">
+      <button onclick="goToTab('browse')" class="nav-tab active-tab" data-tab="browse" data-role-view="youth"><i data-lucide="briefcase"></i> Browse Gigs</button>
+      <button onclick="goToTab('post-gig')" class="nav-tab" data-tab="post-gig" data-role-view="client"><i data-lucide="plus-circle"></i> Post Work</button>
+      <button onclick="goToTab('applications')" class="nav-tab" data-tab="applications" data-role-view="both"><i data-lucide="clipboard-list"></i> Applications</button>
+      <button onclick="goToTab('training')" class="nav-tab" data-tab="training" data-role-view="youth"><i data-lucide="graduation-cap"></i> Training</button>
+      <button onclick="goToTab('payments')" class="nav-tab" data-tab="payments" data-role-view="both"><i data-lucide="wallet"></i> Payments</button>
+      <button onclick="goToTab('profile')" class="nav-tab" data-tab="profile" data-role-view="both"><i data-lucide="user-circle"></i> Profile</button>
+    </aside>
+
+    <section class="dash-content">
+      <header class="dash-hero">
+        <div>
+          <p class="section-kicker">Cynsera Workspace</p>
+          <h1 id="dashboard-hero-title">Manage gigs, applications, and trusted profile details.</h1>
+          <p id="dashboard-hero-copy">Every action on Cynsera is designed to make opportunities safer, clearer, and easier to follow.</p>
+        </div>
+        <div class="dash-hero-card">
+          <span>Trust status</span>
+          <strong id="dashboard-trust-title">Verification active</strong>
+          <small id="dashboard-trust-copy">Profile checks, selfie uploads, and document validation support safer gigs.</small>
+        </div>
+      </header>
+
+      <div id="tab-browse" class="dtab">
+        <div class="tab-heading">
+          <div>
+            <span>Find Work</span>
+            <h2>Available Gigs</h2>
+            <p>Browse opportunities that match your skills and location.</p>
+          </div>
+        </div>
+
+        <div class="filter-row">
+          <input id="search-gigs" type="text" placeholder="Search gigs, locations, or services" oninput="filterGigs()">
+          <select id="filter-category" onchange="filterGigs()">
+            <option value="">All Categories</option>
+            <option value="Manual">Manual Work</option>
+            <option value="Digital">Digital Services</option>
+            <option value="Delivery">Delivery</option>
+            <option value="Creative">Creative</option>
+            <option value="Education">Education</option>
+            <option value="Events">Events</option>
+          </select>
+        </div>
+
+        <div id="gigs-list" class="gig-grid"></div>
+      </div>
+
+      <div id="tab-post-gig" class="dtab hidden">
+        <div class="tab-heading">
+          <div>
+            <span>Requester Flow</span>
+            <h2>Post Work</h2>
+            <p>Describe the work clearly and confirm that you are the verified requester.</p>
+          </div>
+        </div>
+
+        <div class="dash-form-card">
+          <div class="form-stack">
+            <div>
+              <label>Gig Title</label>
+              <input id="gig-title" type="text" placeholder="e.g. House Cleaning - Saturday Morning">
+            </div>
+
+            <div>
+              <label>Description</label>
+              <textarea id="gig-description" placeholder="Describe what needs to be done, the location, time, safety notes, and requirements."></textarea>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label>Budget (R)</label>
+                <input id="gig-budget" type="number" placeholder="800">
+              </div>
+              <div>
+                <label>Category</label>
+                <select id="gig-category">
+                  <option value="">Select category</option>
+                  <option value="Manual">Manual Work</option>
+                  <option value="Digital">Digital Services</option>
+                  <option value="Delivery">Delivery</option>
+                  <option value="Creative">Creative</option>
+                  <option value="Education">Education</option>
+                  <option value="Events">Events</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label>Location</label>
+              <input id="gig-location" type="text" placeholder="e.g. Durban, KwaZulu-Natal">
+            </div>
+
+            <div id="post-gig-error" class="hidden form-error"></div>
+            <button onclick="handlePostGig()" id="post-gig-btn" class="primary-action">Post Gig</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-applications" class="dtab hidden">
+        <div class="tab-heading">
+          <div>
+            <span id="applications-kicker">Application Tracking</span>
+            <h2 id="applications-title">My Applications</h2>
+            <p id="applications-copy">Follow every gig you have applied for.</p>
+          </div>
+        </div>
+        <div id="applications-list" class="application-list"></div>
+      </div>
+
+      <div id="tab-training" class="dtab hidden">
+        <div class="tab-heading">
+          <div>
+            <span>Growth Pathways</span>
+            <h2>Training & Learnerships</h2>
+            <p>Build proof of skill before applying for bigger opportunities.</p>
+          </div>
+        </div>
+        <div class="training-grid">
+          <article>
+            <span>Short course</span>
+            <h3>Work Readiness Sprint</h3>
+            <p>CV basics, interview confidence, workplace communication, and safety expectations.</p>
+            <button>Save Pathway</button>
+          </article>
+          <article>
+            <span>Digital skill</span>
+            <h3>Intro to Online Services</h3>
+            <p>Learn customer messages, simple admin, online forms, and gig communication.</p>
+            <button>Save Pathway</button>
+          </article>
+          <article>
+            <span>Trade prep</span>
+            <h3>Practical Skills Starter</h3>
+            <p>Painting, cleaning, events support, delivery readiness, and proof-of-work habits.</p>
+            <button>Save Pathway</button>
+          </article>
+        </div>
+      </div>
+
+      <div id="tab-payments" class="dtab hidden">
+        <div class="tab-heading">
+          <div>
+            <span>Payment Pipeline</span>
+            <h2>Payments</h2>
+            <p>Track simulated authorisation holds and released earnings.</p>
+          </div>
+        </div>
+
+        <div class="payment-layout">
+          <div class="balance-panel">
+            <span>Account Balance</span>
+            <strong id="pay-balance">R0.00</strong>
+            <p>Prototype payment flow shows how authorisation holds can protect both clients and youth users.</p>
+          </div>
+          <div class="timeline-panel">
+            <div><span>1</span><p><strong>Client confirms funds</strong><small>Payment is marked as reserved.</small></p></div>
+            <div><span>2</span><p><strong>Work is completed</strong><small>Completion proof is submitted.</small></p></div>
+            <div><span>3</span><p><strong>Payment is released</strong><small>Status changes after confirmation.</small></p></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-profile" class="dtab hidden">
+        <div class="tab-heading">
+          <div>
+            <span>Identity & Reputation</span>
+            <h2>Your Profile</h2>
+            <p>Manage the details Cynsera uses to keep your profile trusted.</p>
+          </div>
+        </div>
+
+        <div class="profile-layout">
+          <div class="profile-card-main">
+            <div class="profile-head">
+              <img src="assets/cynsera-logo-cropped.png" alt="Cynsera logo">
+              <div>
+                <h3 id="profile-name">-</h3>
+                <p id="profile-role-label">-</p>
+                <span>Rating <strong id="profile-rating">0.0</strong></span>
+              </div>
+            </div>
+
+            <div class="profile-stats">
+              <div><strong id="stat-balance">R0</strong><span>Balance</span></div>
+              <div><strong id="stat-gigs">0</strong><span>Gigs Posted</span></div>
+              <div><strong id="stat-apps">0</strong><span>Applications</span></div>
+            </div>
+
+            <div class="form-stack">
+              <div>
+                <label>Email</label>
+                <p id="profile-email" class="read-field">-</p>
+              </div>
+              <div>
+                <label>Phone</label>
+                <p id="profile-phone" class="read-field">-</p>
+              </div>
+              <div>
+                <label>Location</label>
+                <p id="profile-location" class="read-field">-</p>
+              </div>
+              <div>
+                <label>Skills</label>
+                <div id="profile-skills-display" class="skills-display"></div>
+              </div>
+              <div id="client-profile-extra" class="client-profile-extra hidden"></div>
+              <div>
+                <label id="profile-bio-label">Bio</label>
+                <textarea id="profile-bio" placeholder="Tell the community about your work ethic and skills."></textarea>
+              </div>
+              <button onclick="saveProfile()" class="primary-action">Save Changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="cynsera-buddy" class="buddy-widget">
+    <div id="buddy-message" class="buddy-panel hidden">
+      <div class="buddy-head">
+        <strong>Cynsera Buddy</strong>
+        <button onclick="toggleBuddy()" aria-label="Close Cynsera Buddy"><i data-lucide="x"></i></button>
+      </div>
+      <div id="buddy-chat-log" class="buddy-chat-log"></div>
+      <div class="buddy-quick-actions">
+        <button onclick="buddyAsk('How do I apply?')">Apply</button>
+        <button onclick="buddyAsk('How do clients post work?')">Post work</button>
+        <button onclick="buddyAsk('What languages do you know?')">Languages</button>
+      </div>
+      <form class="buddy-input-row" onsubmit="sendBuddyMessage(event)">
+        <input id="buddy-input" type="text" placeholder="Ask Cynsera Buddy">
+        <button type="submit"><i data-lucide="send"></i></button>
+      </form>
+    </div>
+    <button onclick="toggleBuddy()"><i data-lucide="bot"></i></button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/gigs.js"></script>
+<script src="js/payments.js"></script>
+<script src="js/buddy.js"></script>
+</body>
+</html>

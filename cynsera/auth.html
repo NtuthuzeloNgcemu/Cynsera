@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYNSERA - Login / Sign Up</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="h-full font-body auth-body">
+<div id="toast-container"></div>
+
+<main id="page-auth" class="auth-shell">
+  <section class="auth-card">
+    <aside class="auth-story-panel">
+      <div class="auth-logo-pill">
+        <img src="assets/cynsera-logo-cropped.png" alt="Cynsera logo">
+      </div>
+      <div class="auth-story-content">
+        <span class="story-kicker">Youth Career Navigation</span>
+        <h1>Build your profile. Find your first step. Grow from there.</h1>
+        <p id="story-quote" class="story-quote">"We cannot always build the future for our youth, but we can build our youth for the future."</p>
+        <p id="story-author" class="story-author">Franklin D. Roosevelt</p>
+      </div>
+      <div class="story-stats">
+        <div><strong>Gigs</strong><span>Low-skill local work</span></div>
+        <div><strong>Jobs</strong><span>Entry-level roles</span></div>
+        <div><strong>Growth</strong><span>Training pathways</span></div>
+      </div>
+    </aside>
+
+    <section class="auth-form-panel">
+      <div class="auth-top-row">
+        <button onclick="window.location.href='index.html'" class="back-home">
+          <i data-lucide="arrow-left"></i>
+          Back to Home
+        </button>
+        <p>Already have an account? <button onclick="switchAuthTab('login')">Sign in</button></p>
+      </div>
+
+      <div class="auth-brand-mobile">
+        <img src="assets/cynsera-logo-cropped.png" alt="Cynsera logo">
+      </div>
+
+      <div class="auth-tabs">
+        <button id="auth-tab-login" class="auth-tab-btn active" onclick="switchAuthTab('login')">Log In</button>
+        <button id="auth-tab-signup" class="auth-tab-btn" onclick="switchAuthTab('signup')">Sign Up</button>
+      </div>
+
+      <div id="auth-panel-login" class="auth-panel active">
+        <div class="form-heading">
+          <span>Welcome back</span>
+          <h2>Log in to Cynsera</h2>
+          <p>Continue building your work profile and opportunities.</p>
+        </div>
+
+        <div class="form-stack">
+          <div>
+            <label>Email Address</label>
+            <input id="login-email" type="email" placeholder="your@email.com" onkeydown="if(event.key==='Enter')handleLogin()">
+          </div>
+
+          <div>
+            <div class="field-row">
+              <label>Password</label>
+              <button onclick="openForgotPassword()" type="button">Forgot password?</button>
+            </div>
+            <div class="pw-wrap">
+              <input id="login-password" type="password" placeholder="Enter your password" onkeydown="if(event.key==='Enter')handleLogin()">
+              <button class="pw-toggle" onclick="togglePassword('login-password', this)" type="button"><i data-lucide="eye"></i></button>
+            </div>
+          </div>
+
+          <div id="login-error" class="hidden form-error"></div>
+          <button onclick="handleLogin()" id="login-btn" class="primary-action">Sign In</button>
+
+          <div class="demo-note">
+            <strong>Youth demo:</strong> demo@cynsera.com / demo123<br>
+            <strong>Client demo:</strong> client@cynsera.com / client123<br>
+            <strong>Company demo:</strong> company@cynsera.com / company123
+          </div>
+
+          <p class="auth-switch">No account yet?
+            <button onclick="switchAuthTab('signup')">Create one free</button>
+          </p>
+        </div>
+      </div>
+
+      <div id="auth-panel-signup" class="auth-panel">
+        <div class="signup-progress">
+          <div class="step-dot active-step" data-step="1"></div>
+          <div class="step-line"></div>
+          <div class="step-dot" data-step="2"></div>
+          <div class="step-line"></div>
+          <div class="step-dot" data-step="3"></div>
+          <div class="step-line"></div>
+          <div class="step-dot" data-step="4"></div>
+          <span id="reg-step-label">Step 1 of 4</span>
+        </div>
+
+        <div id="reg-step-1" class="signup-step active-signup-step">
+          <div class="form-heading">
+            <span>Create your account</span>
+            <h2>Start with secure details</h2>
+            <p>Use accurate contact information so gig confirmations can protect both sides.</p>
+          </div>
+
+          <div class="form-stack">
+            <div>
+              <label>Full Name</label>
+              <input id="reg-name" type="text" placeholder="Thabo Mokoena">
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label>Email</label>
+                <input id="reg-email" type="email" placeholder="you@email.com">
+              </div>
+              <div>
+                <label>Phone</label>
+                <input id="reg-phone" type="tel" placeholder="+27 71 000 0000">
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-4">
+              <div>
+                <label>ID Type</label>
+                <select id="reg-id-type">
+                  <option value="">Select type</option>
+                  <option value="sa_id">South African ID</option>
+                  <option value="passport">Passport</option>
+                </select>
+              </div>
+              <div>
+                <label>ID / Passport Number</label>
+                <input id="reg-identity-number" type="text" placeholder="SA ID or passport number">
+              </div>
+              <div>
+                <label>Date of Birth</label>
+                <input id="reg-dob" type="date">
+              </div>
+            </div>
+
+            <div>
+              <label>Postal Code</label>
+              <input id="reg-postal-code" type="text" inputmode="numeric" maxlength="4" placeholder="e.g. 4001">
+            </div>
+
+            <div>
+              <label>I am joining as...</label>
+              <input id="reg-role" type="hidden">
+              <div class="role-choice-grid">
+                <button type="button" class="role-choice-card" data-role="youth" onclick="selectUserRole('youth')">
+                  <strong>Youth</strong>
+                  <small>Find safe gigs, entry-level work, learnerships, and build a trusted work profile.</small>
+                </button>
+                <button type="button" class="role-choice-card" data-role="client" onclick="selectUserRole('client')">
+                  <strong>Client</strong>
+                  <small>Post once-off practical jobs like washing, cleaning, painting, moving, or home help.</small>
+                </button>
+                <button type="button" class="role-choice-card" data-role="company" onclick="selectUserRole('company')">
+                  <strong>Company</strong>
+                  <small>Post business opportunities, entry-level roles, learnerships, workshops, and corporate gigs.</small>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label>Password</label>
+              <div class="pw-wrap">
+                <input id="reg-password" type="password" placeholder="12+ chars, Aa, number, symbol" oninput="updatePasswordStrength(this.value)">
+                <button class="pw-toggle" onclick="togglePassword('reg-password', this)" type="button"><i data-lucide="eye"></i></button>
+              </div>
+              <div class="strength-row">
+                <div id="sb1" class="strength-bar"></div>
+                <div id="sb2" class="strength-bar"></div>
+                <div id="sb3" class="strength-bar"></div>
+                <div id="sb4" class="strength-bar"></div>
+              </div>
+              <p id="pw-strength-label" class="validation-hint field-neutral"></p>
+            </div>
+
+            <div id="reg-error" class="hidden form-error"></div>
+            <button onclick="handleRegisterStep1()" class="primary-action">Continue</button>
+          </div>
+        </div>
+
+        <div id="reg-step-2" class="signup-step">
+          <div class="form-heading centered">
+            <span>Email verification</span>
+            <h2>Enter your 6-digit code</h2>
+            <p>CynseraDB created a verification request for your email. In this prototype, the request is saved in our email-verification database.</p>
+            <div class="verification-code-card">
+              <span id="verification-code-label">Verification status</span>
+              <strong id="verification-code-preview">Sent</strong>
+            </div>
+          </div>
+
+          <div class="otp-row">
+            <input type="text" maxlength="1" class="otp-box font-display" oninput="otpNext(this,0)">
+            <input type="text" maxlength="1" class="otp-box font-display" oninput="otpNext(this,1)">
+            <input type="text" maxlength="1" class="otp-box font-display" oninput="otpNext(this,2)">
+            <input type="text" maxlength="1" class="otp-box font-display" oninput="otpNext(this,3)">
+            <input type="text" maxlength="1" class="otp-box font-display" oninput="otpNext(this,4)">
+            <input type="text" maxlength="1" class="otp-box font-display" oninput="otpNext(this,5)">
+          </div>
+
+          <div id="otp-error" class="hidden form-error"></div>
+          <button id="otp-verify-btn" onclick="verifyOTP()" class="primary-action">Verify Code</button>
+          <button onclick="goRegStep(1)" class="secondary-action">Back</button>
+        </div>
+
+        <div id="reg-step-3" class="signup-step">
+          <div class="form-heading">
+            <span>Set up your profile</span>
+            <h2>Help Cynsera match you better</h2>
+            <p id="profile-slide-label">Location & Bio</p>
+          </div>
+
+          <div class="onboard-meter">
+            <div><span id="profile-slide-num">1 / 4</span></div>
+            <div><div id="onboard-progress-bar"></div></div>
+          </div>
+
+          <div id="ob-slide-a" class="onboarding-slide active-slide">
+            <div class="form-stack">
+              <div>
+                <label>Your City / Area</label>
+                <input id="ob-location" type="text" placeholder="e.g. Durban">
+              </div>
+              <div>
+                <label>Province</label>
+                <select id="ob-province">
+                  <option value="">Select province</option>
+                  <option>Gauteng</option>
+                  <option>Western Cape</option>
+                  <option>KwaZulu-Natal</option>
+                  <option>Eastern Cape</option>
+                  <option>Limpopo</option>
+                  <option>Mpumalanga</option>
+                  <option>North West</option>
+                  <option>Free State</option>
+                  <option>Northern Cape</option>
+                </select>
+              </div>
+              <div>
+                <label>Short Bio</label>
+                <textarea id="ob-bio" placeholder="Tell clients about your work ethic, reliability, and what kind of work you are ready to do."></textarea>
+                <p class="validation-hint field-neutral">Write more than 5 words.</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="ob-slide-b" class="onboarding-slide">
+            <p class="slide-note">Choose at least one skill. These help clients understand what you can offer.</p>
+            <div id="skills-grid" class="choice-grid"></div>
+            <div class="custom-skill-row">
+              <input id="custom-skill-input" type="text" placeholder="Add a custom skill" onkeydown="if(event.key==='Enter'){addCustomSkill();event.preventDefault();}">
+              <button onclick="addCustomSkill()">Add</button>
+            </div>
+          </div>
+
+          <div id="ob-slide-c" class="onboarding-slide">
+            <p class="slide-note" id="work-pref-sublabel">Choose at least one category and one availability option.</p>
+            <label id="work-pref-label">Preferred Work Categories</label>
+            <div class="choice-grid compact" id="categories-grid"></div>
+
+            <label>Availability</label>
+            <div class="choice-grid compact" id="availability-grid"></div>
+
+            <div>
+              <label>Expected Rate / Salary</label>
+              <div class="rate-row">
+                <span>R</span>
+                <input id="ob-rate" type="number" placeholder="e.g. 800">
+                <select id="ob-rate-period">
+                  <option value="per_gig">per gig</option>
+                  <option value="per_day">per day</option>
+                  <option value="per_hour">per hour</option>
+                  <option value="per_month">per month</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="step-actions">
+            <button id="ob-back-btn" onclick="obSlideBack()" class="secondary-action" style="display:none;">Back</button>
+            <button id="ob-next-btn" onclick="obSlideNext()" class="primary-action">Continue</button>
+          </div>
+          <div id="ob-error" class="hidden form-error"></div>
+        </div>
+
+        <div id="reg-step-4" class="signup-step">
+          <div class="success-panel">
+            <div class="success-icon"><i data-lucide="check"></i></div>
+            <span>Profile verified</span>
+            <h2>You are ready to enter Cynsera</h2>
+            <p>Your profile is set up with location, skills, work preferences, and verification consent.</p>
+
+            <div class="summary-card">
+              <div><span>Location</span><strong id="summary-location">-</strong></div>
+              <div><span>Role</span><strong id="summary-role">-</strong></div>
+              <div><span id="summary-third-label">Skills</span><strong id="summary-skills">-</strong></div>
+            </div>
+
+            <button onclick="completeRegistration()" class="primary-action">Enter Dashboard</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/onboarding.js"></script>
+</body>
+</html>
