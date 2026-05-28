@@ -1,6 +1,6 @@
 
-const SUPABASE_URL  = window.CYNSERA_CONFIG?.supabaseUrl  || '';
-const SUPABASE_ANON = window.CYNSERA_CONFIG?.supabaseAnon || '';
+const SUPABASE_URL  = window.CYNSERA_CONFIG?.supabaseUrl        || '';
+const SUPABASE_ANON = window.CYNSERA_CONFIG?.supabaseAnon       || '';
 
 if (!window.supabase) {
   console.error('[Cynsera] Supabase JS SDK not found. Add the CDN script before supabase.js.');
