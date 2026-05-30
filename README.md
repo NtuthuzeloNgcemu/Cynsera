@@ -21,15 +21,15 @@ cynsera/
 │   └── styles.css      All styles (design tokens, components, responsive)
 │
 ├── js/
-│   ├── supabase.js     Supabase client init + dbQuery helper    ← NEW
-│   ├── utils.js        State, constants, Supabase data layer    ← REFACTORED
-│   ├── auth.js         Login, registration, OTP, password reset ← REFACTORED
+│   ├── supabase.js     Supabase client init + dbQuery helper    
+│   ├── utils.js        State, constants, Supabase data layer    
+│   ├── auth.js         Login, registration, OTP, password reset 
 │   ├── onboarding.js   Role-specific signup slides
-│   ├── gigs.js         Gig grid, apply modal, post-gig form     ← REFACTORED
-│   ├── dashboard.js    Tab routing, profile, applications       ← REFACTORED
-│   ├── buddy.js        Multilingual chatbot (12 languages)      ← REFACTORED
-│   ├── payments.js     Balance display + payment simulation     ← REFACTORED
-│   └── main.js         Landing page interactions                ← REFACTORED
+│   ├── gigs.js         Gig grid, apply modal, post-gig form     
+│   ├── dashboard.js    Tab routing, profile, applications       
+│   ├── buddy.js        Multilingual chatbot (12 languages)     
+│   ├── payments.js     Balance display + payment simulation    
+│   └── main.js         Landing page interactions 
 │
 └── data/
     ├── schema.sql      Supabase table definitions + RLS policies ← NEW
