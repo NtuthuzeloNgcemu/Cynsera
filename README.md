@@ -18,7 +18,7 @@ cynsera/
 │   └── cynsera-logo-cropped.png
 │
 ├── css/
-│   └── styles.css      All styles (design tokens, components, responsive)
+│   └── styles.css 
 │
 ├── js/
 │   ├── supabase.js     Supabase client init + dbQuery helper    
@@ -60,92 +60,6 @@ cynsera/
 | Company | company@cynsera.com  | company123  |
 
 ---
-
-## Code Review Notes & Refactoring Changes
-
-### Architecture
-- **`js/supabase.js` (NEW)** – Single source of truth for the Supabase client.
-  Previously the client was duplicated inside `main.js` and not available
-  to other modules. Now every page loads `supabase.js` first.
-- **Load order** – All HTML pages now load: `supabase.js → utils.js → page JS`.
-  This eliminates the race condition where `auth.js` called `loadState()`
-  before `supabase` was defined.
-
-### utils.js
-- Added `fetchGigsFromDB()`, `insertGigToDB()`, `updateGigInDB()`,
-  `insertUserToDB()`, `fetchUserByEmail()`, `updateUserInDB()` – all
-  Supabase-wired with localStorage fallback.
-- `requestEmailVerification` and `confirmEmailVerification` now write
-  to the `email_verifications` Supabase table first, falling back to
-  `localStorage` for static-file preview.
-- Added `normaliseGig()` and `normaliseUser()` normalisers to handle
-  Supabase snake_case ↔ JS camelCase mapping in one place.
-- `saveState` and `loadState` kept as aliases so existing call-sites
-  still work without changes.
-
-### auth.js
-- Removed duplicated Supabase client init (was in `main.js` only, not
-  available on `auth.html`).
-- Phone validation now uses `SA_MOBILE_PREFIXES` list – rejects landlines
-  and invalid sequences.
-- Password rules are injected via `setupRegisterValidation()` so the HTML
-  stays clean and rule logic lives in JS.
-- `handleRegisterStep1` validates *all* fields before making any async call.
-- `handleLogin` uses `fetchUserByEmail()` as fallback after local lookup,
-  so logins work even if `localStorage` was cleared.
-- Forgot password flow now writes/reads from Supabase `email_verifications`.
-- Passwords confirmed with a second field before registration proceeds.
-
-### gigs.js
-- Added `escapeHtml()` to prevent XSS in rendered gig cards and modals.
-- `identityMatchesCurrentUser()` now normalises both phone formats
-  (`0731234567` vs `+27731234567`) before comparing.
-- `submitGigApplication()` calls `updateGigInDB()` – changes persist
-  to Supabase, not just localStorage.
-- `handlePostGig()` calls `insertGigToDB()` – new gigs are written
-  to Supabase immediately.
-- File type validation (`isImageFile`, `validateApplicationFile`) now
-  checks both MIME type and extension (CDN-served files sometimes
-  lack a MIME type).
-
-### dashboard.js
-- `initDashboard()` calls `fetchGigsFromDB()` on load so the gig list
-  is always fresh from Supabase.
-- `saveProfile()` calls `updateUserInDB()` – bio/goal changes sync
-  to Supabase.
-- `emptyState()` helper removes repeated inline HTML strings.
-- `escapeHtml()` applied to all user-supplied content in rendered cards.
-
-### buddy.js
-- Language array restructured as plain objects (removed redundant spread).
-- `toggleBuddy()` null-checks the panel element before toggling.
-
-### payments.js
-- Added `simulatePaymentHold()` and `releasePayment()` stubs showing
-  where real payment-gateway calls will go (PayFast / Peach Payments).
-
-### CSS (styles.css)
-- Removed Windows CRLF line endings (were causing parse warnings).
-- No structural changes – design is preserved exactly.
-
----
-
-## Production Checklist
-
-- [ ] Replace plaintext passwords with **Supabase Auth** (email + OTP).
-- [ ] Move the anon key to an environment variable; use a server proxy
-      for sensitive operations.
-- [ ] Tighten **RLS policies** – currently `anon` has broad insert/update
-      access (fine for prototype, not for production).
-- [ ] Add **Supabase Storage** bucket for selfie and document uploads
-      instead of storing filenames only.
-- [ ] Wire a real **email provider** (Resend, SendGrid) to the
-      `email_verifications` flow via a Supabase Edge Function.
-- [ ] Add **rate limiting** on the OTP endpoint.
-- [ ] Replace the `password` column with Supabase Auth `auth.users`.
-
----
-
 ## Tech Stack
 
 | Layer      | Technology                              |
